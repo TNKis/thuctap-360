@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thời Tiết Hôm Nay</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Thời Tiết tại {{ thanh_pho }}</h1>
+        {% if thoi_tiet and thoi_tiet.main %}
+            <p>Nhiệt độ: <span class="temperature">{{ (thoi_tiet.main.temp - 273.15) | round(2) }} °C</span></p>
+            <p>Mô tả: <span class="description">{{ thoi_tiet.weather[0].description.capitalize() }}</span></p>
+            <p>Độ ẩm: <span class="humidity">{{ thoi_tiet.main.humidity }}%</span></p>
+            {% if thoi_tiet.wind %}
+                <p>Tốc độ gió: <span class="wind">{{ thoi_tiet.wind.speed }} m/s</span></p>
+            {% endif %}
+        {% elif thoi_tiet and thoi_tiet.error %}
+            <p class="error">{{ thoi_tiet.error }}</p>
+        {% else %}
+            <p>Không có dữ liệu thời tiết.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
